@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private int score = 0;
+
     [Tooltip("speed of the player")]
     [SerializeField]
     public float speed;
@@ -19,5 +21,16 @@ public class PlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * speed;
         rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Pickup")) 
+        {
+            score += 1;
+            Debug.Log($"Score: {score}");
+            Destroy(other.gameObject);
+        }
+        
     }
 }
